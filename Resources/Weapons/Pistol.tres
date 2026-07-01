@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="WeaponResource" format=3 uid="uid://cjpbdrqx41qh"]
+
+[ext_resource type="Script" uid="uid://ctneoef7s4rqg" path="res://Entities/Weapon/WeaponResource.gd" id="1_2uslf"]
+[ext_resource type="AudioStream" uid="uid://dnn88mp5mpld3" path="res://Assets/Weapons/Revolver/Sound/revolver_gunshot_sfx.mp3" id="1_d7vym"]
+[ext_resource type="PackedScene" uid="uid://bei4l5xx21mu0" path="res://Assets/Weapons/Revolver/Revolver.tscn" id="2_uuj3x"]
+[ext_resource type="PackedScene" uid="uid://bvht0l1g1kwr2" path="res://Entities/Weapon/MuzzleFlash.tscn" id="3_8uc0g"]
+
+[resource]
+script = ExtResource("1_2uslf")
+weapon_mesh = ExtResource("2_uuj3x")
+weapon_muzzle_flash = ExtResource("3_8uc0g")
+shake_intensity = 0.05
+fire_sound = ExtResource("1_d7vym")
+metadata/_custom_type_script = "uid://ctneoef7s4rqg"

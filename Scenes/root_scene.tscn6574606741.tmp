@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://bjb884gokrp8g"]
+
+[ext_resource type="PackedScene" uid="uid://d3qkg1caj1kpw" path="res://Entities/Player/Player.tscn" id="1_hk3c5"]
+[ext_resource type="Texture2D" uid="uid://dyi7w8f2ij7gw" path="res://addons/kenney_prototype_textures/orange/texture_09.png" id="3_2tpj2"]
+[ext_resource type="Texture2D" uid="uid://sctpfiwm5ar" path="res://addons/kenney_prototype_textures/green/texture_09.png" id="4_llq18"]
+[ext_resource type="PackedScene" uid="uid://diul62gvg8blc" path="res://Entities/Enemies/Zombie/Zombie.tscn" id="5_llq18"]
+
+[sub_resource type="Environment" id="Environment_kib2a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pw4gd"]
+albedo_texture = ExtResource("3_2tpj2")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqegh"]
+albedo_texture = ExtResource("4_llq18")
+uv1_triplanar = true
+
+[node name="RootScene" type="Node3D" unique_id=1596513570]
+
+[node name="Player" parent="." unique_id=1386983189 instance=ExtResource("1_hk3c5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.786465, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1831999586]
+environment = SubResource("Environment_kib2a")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=19575700]
+transform = Transform3D(1, 0, 0, 0, 0.40652937, 0.9136377, 0, -0.9136377, 0.40652937, 0, 14.016994, 0)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=229803949]
+transform = Transform3D(1, 0, 0, 0, 0.029, 0, 0, 0, 1, 0, -0.087, 0)
+material_override = SubResource("StandardMaterial3D_pw4gd")
+use_collision = true
+size = Vector3(41.625, 6, 48.09)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="." unique_id=1921257800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.847002, 0.0031063557, 3.1270142)
+material_override = SubResource("StandardMaterial3D_aqegh")
+use_collision = true
+size = Vector3(1, 1, 7.2540283)
+
+[node name="Zombie" parent="." unique_id=721836307 instance=ExtResource("5_llq18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=257157693]

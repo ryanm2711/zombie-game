@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://d3qkg1caj1kpw"]
+
+[ext_resource type="Script" uid="uid://c06cu2g4a427i" path="res://Entities/Player/Player.gd" id="1_e5kic"]
+[ext_resource type="Script" uid="uid://bml1pbtn6odbf" path="res://Entities/StateMachine/StateMachine.gd" id="2_ww0jn"]
+[ext_resource type="Script" uid="uid://dvpmwq31nrejl" path="res://Entities/Player/States/Idle.gd" id="3_vweq0"]
+[ext_resource type="Script" uid="uid://dxbrvr8yn7xlg" path="res://Entities/Player/Components/CameraComponent.gd" id="4_1des2"]
+[ext_resource type="Script" uid="uid://bls2bth6jsh0b" path="res://Entities/Player/States/Sprinting.gd" id="5_x44r4"]
+[ext_resource type="Script" uid="uid://cdsh5px4avoqu" path="res://Entities/Player/States/Jumping.gd" id="6_761t5"]
+[ext_resource type="Script" uid="uid://bkwvl6f2gdwnh" path="res://Entities/Player/Components/InputComponent.gd" id="6_t38ms"]
+[ext_resource type="Script" uid="uid://jtvk3qgxlk2v" path="res://Entities/Player/States/Falling.gd" id="7_hacra"]
+[ext_resource type="Script" uid="uid://ip7en84hkm1k" path="res://Entities/Player/Components/MoveComponent.gd" id="7_hj1c0"]
+[ext_resource type="Script" uid="uid://dogfojheamk1t" path="res://Entities/Player/States/Running.gd" id="7_x44r4"]
+[ext_resource type="Script" uid="uid://dm2s1j77qnkmn" path="res://Entities/Player/Components/CombatComponent.gd" id="11_jynvv"]
+[ext_resource type="Resource" uid="uid://cjpbdrqx41qh" path="res://Resources/Weapons/Pistol.tres" id="12_lmeus"]
+[ext_resource type="Script" uid="uid://bfif1rdnu8uwh" path="res://Resources/Components/HealthComponent.gd" id="13_061yh"]
+[ext_resource type="PackedScene" uid="uid://dwmr04jd16y0k" path="res://Scenes/BulletHole_Decal.tscn" id="13_samso"]
+[ext_resource type="Script" uid="uid://hk77jnkr2kqf" path="res://Resources/Components/CameraShakeComponent.gd" id="14_gallu"]
+[ext_resource type="Texture2D" uid="uid://c3f5bwfgjqqdg" path="res://addons/kenney_crosshair-pack/Tilesheet/crosshairs_tilesheet_white.png" id="14_uw7o4"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mq5ly"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gallu"]
+atlas = ExtResource("14_uw7o4")
+region = Rect2(0, 0, 64, 64)
+
+[node name="Player" type="CharacterBody3D" unique_id=1386983189 node_paths=PackedStringArray("input_component", "movement_component", "camera_component", "combat_component")]
+script = ExtResource("1_e5kic")
+input_component = NodePath("Behaviours/InputComponent")
+movement_component = NodePath("Behaviours/MoveComponent")
+camera_component = NodePath("Behaviours/CameraComponent")
+combat_component = NodePath("Behaviours/CombatComponent")
+
+[node name="Behaviours" type="Node3D" parent="." unique_id=562853512]
+
+[node name="StateMachine" type="Node" parent="Behaviours" unique_id=542759457 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_ww0jn")
+initial_state = NodePath("States/Idle")
+
+[node name="States" type="Node" parent="Behaviours/StateMachine" unique_id=1494785813]
+
+[node name="Idle" type="Node" parent="Behaviours/StateMachine/States" unique_id=1320514667]
+script = ExtResource("3_vweq0")
+
+[node name="Running" type="Node" parent="Behaviours/StateMachine/States" unique_id=251578620]
+script = ExtResource("7_x44r4")
+
+[node name="Sprinting" type="Node" parent="Behaviours/StateMachine/States" unique_id=972266684]
+script = ExtResource("5_x44r4")
+
+[node name="Jumping" type="Node" parent="Behaviours/StateMachine/States" unique_id=1498806369]
+script = ExtResource("6_761t5")
+speed_in_air = 5.0
+
+[node name="Falling" type="Node" parent="Behaviours/StateMachine/States" unique_id=1909026898]
+script = ExtResource("7_hacra")
+speed_in_air = 5.0
+
+[node name="InputComponent" type="Node3D" parent="Behaviours" unique_id=366508445]
+script = ExtResource("6_t38ms")
+
+[node name="MoveComponent" type="Node3D" parent="Behaviours" unique_id=503421623 node_paths=PackedStringArray("entity")]
+script = ExtResource("7_hj1c0")
+entity = NodePath("../..")
+jump_power = 3.5
+
+[node name="CameraComponent" type="Node3D" parent="Behaviours" unique_id=1959287134 node_paths=PackedStringArray("camera", "entity")]
+script = ExtResource("4_1des2")
+camera = NodePath("../../Camera3D")
+entity = NodePath("../..")
+
+[node name="CombatComponent" type="Node3D" parent="Behaviours" unique_id=1376634069 node_paths=PackedStringArray("weapon_hand", "target_ray", "shake_component", "audio_player")]
+script = ExtResource("11_jynvv")
+current_weapon = ExtResource("12_lmeus")
+weapon_hand = NodePath("../../Camera3D/WeaponHand")
+target_ray = NodePath("../../Camera3D/TargetRay")
+bullet_hole_decal = ExtResource("13_samso")
+shake_component = NodePath("../CameraShakeComponent")
+audio_player = NodePath("../../Camera3D/WeaponAudioStreamPlayer")
+
+[node name="HealthComponent" type="Node3D" parent="Behaviours" unique_id=494694783]
+script = ExtResource("13_061yh")
+metadata/_custom_type_script = "uid://bfif1rdnu8uwh"
+
+[node name="CameraShakeComponent" type="Node3D" parent="Behaviours" unique_id=2052800676 node_paths=PackedStringArray("camera")]
+script = ExtResource("14_gallu")
+camera = NodePath("../../Camera3D")
+metadata/_custom_type_script = "uid://hk77jnkr2kqf"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1899705066]
+shape = SubResource("CapsuleShape3D_mq5ly")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=522875239]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="WeaponHand" type="Marker3D" parent="Camera3D" unique_id=1614767120]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3106584, -0.26582366, -0.62737286)
+
+[node name="WeaponAudioStreamPlayer" type="AudioStreamPlayer3D" parent="Camera3D" unique_id=1591629581]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3106584, -0.26582366, -0.62737286)
+volume_db = -25.0
+
+[node name="TargetRay" type="RayCast3D" parent="Camera3D" unique_id=427036466]
+target_position = Vector3(0, 0, -25)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=723196970]
+
+[node name="Crosshair" type="TextureRect" parent="HUD" unique_id=623630348]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_gallu")
+
+[connection signal="reload_weapon" from="Behaviours/InputComponent" to="Behaviours/CombatComponent" method="_on_input_component_reload_weapon"]

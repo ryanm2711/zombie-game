@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://3tgniyvupavm"]
+
+[ext_resource type="Shader" uid="uid://bf3scg71ryyo0" path="res://Entities/viewmodel.gdshader" id="1_eukdt"]
+[ext_resource type="Texture2D" uid="uid://1bxhgrv4m4em" path="res://Assets/Weapons/Revolver/Textures/Revvy_C.png" id="1_jmh0j"]
+[ext_resource type="Texture2D" uid="uid://u3paqheotrns" path="res://Assets/Weapons/Revolver/Textures/Revvy_N.png" id="2_8al5r"]
+[ext_resource type="Texture2D" uid="uid://4yvk0irfhr3d" path="res://Assets/Weapons/Revolver/Textures/Revvy_RM.png" id="2_27d5k"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_eukdt")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("1_jmh0j")
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/texture_metallic = ExtResource("2_27d5k")
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 1.0
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/emission_energy = 0.0
+shader_parameter/texture_normal = ExtResource("2_8al5r")
+shader_parameter/normal_scale = 1.0
+shader_parameter/ao_texture_channel = Vector4(0, 0, 0, 0)
+shader_parameter/ao_light_affect = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/FOV = 75.0

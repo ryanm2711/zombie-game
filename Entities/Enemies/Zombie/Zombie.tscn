@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://diul62gvg8blc"]
+
+[ext_resource type="Script" uid="uid://ip7en84hkm1k" path="res://Entities/Player/Components/MoveComponent.gd" id="1_8ishq"]
+[ext_resource type="Script" uid="uid://kleni0bma16l" path="res://Entities/Enemies/Zombie/Zombie.gd" id="1_520xa"]
+[ext_resource type="Texture2D" uid="uid://du8aa5ubi28pe" path="res://addons/kenney_prototype_textures/red/texture_02.png" id="1_bpf0s"]
+[ext_resource type="Texture2D" uid="uid://felk6rkih1ty" path="res://addons/kenney_prototype_textures/red/texture_05.png" id="2_krbvh"]
+[ext_resource type="Script" uid="uid://bfif1rdnu8uwh" path="res://Resources/Components/HealthComponent.gd" id="2_l4jtg"]
+[ext_resource type="Script" uid="uid://bml1pbtn6odbf" path="res://Entities/StateMachine/StateMachine.gd" id="3_krbvh"]
+[ext_resource type="Script" uid="uid://bsbpt5n0rk2qr" path="res://Entities/Enemies/Zombie/States/ZombieIdle.gd" id="5_121u4"]
+[ext_resource type="Script" uid="uid://wuah27w4mbrm" path="res://Entities/Enemies/Zombie/States/ZombieChase.gd" id="6_ygk8b"]
+[ext_resource type="Script" uid="uid://bq34aq4winv3s" path="res://Entities/Enemies/Zombie/States/ZombieWander.gd" id="7_ebh3a"]
+[ext_resource type="Script" uid="uid://cxtbbruw1sas0" path="res://Entities/Enemies/Zombie/PathfindingComponent.gd" id="9_45eoe"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_520xa"]
+albedo_texture = ExtResource("1_bpf0s")
+
+[sub_resource type="BoxMesh" id="BoxMesh_3xd07"]
+size = Vector3(1, 0.11425781, 0.22949219)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dp0cu"]
+albedo_texture = ExtResource("2_krbvh")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3xd07"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xd07"]
+
+[node name="Zombie" type="CharacterBody3D" unique_id=721836307 node_paths=PackedStringArray("move_component", "health_component", "pathfinding_component")]
+script = ExtResource("1_520xa")
+move_component = NodePath("Behaviours/MoveComponent")
+health_component = NodePath("Behaviours/HealthComponent")
+pathfinding_component = NodePath("Behaviours/PathfindingComponent")
+
+[node name="eyes" type="MeshInstance3D" parent="." unique_id=205235939]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5571289, 0.3852539)
+material_override = SubResource("StandardMaterial3D_520xa")
+mesh = SubResource("BoxMesh_3xd07")
+
+[node name="body" type="MeshInstance3D" parent="." unique_id=1446988676]
+material_override = SubResource("StandardMaterial3D_dp0cu")
+mesh = SubResource("CapsuleMesh_3xd07")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=406839961]
+shape = SubResource("CapsuleShape3D_3xd07")
+
+[node name="Behaviours" type="Node3D" parent="." unique_id=11046669]
+
+[node name="StateMachine" type="Node" parent="Behaviours" unique_id=707928463 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_krbvh")
+initial_state = NodePath("States/Wander")
+metadata/_custom_type_script = "uid://bml1pbtn6odbf"
+
+[node name="States" type="Node" parent="Behaviours/StateMachine" unique_id=616157134]
+
+[node name="Idle" type="Node" parent="Behaviours/StateMachine/States" unique_id=1453151080]
+script = ExtResource("5_121u4")
+metadata/_custom_type_script = "uid://dptp4k2n7xamn"
+
+[node name="Chase" type="Node" parent="Behaviours/StateMachine/States" unique_id=1706395197]
+script = ExtResource("6_ygk8b")
+metadata/_custom_type_script = "uid://dptp4k2n7xamn"
+
+[node name="Wander" type="Node" parent="Behaviours/StateMachine/States" unique_id=1860040724]
+script = ExtResource("7_ebh3a")
+
+[node name="HealthComponent" type="Node3D" parent="Behaviours" unique_id=1784841452]
+script = ExtResource("2_l4jtg")
+metadata/_custom_type_script = "uid://bfif1rdnu8uwh"
+
+[node name="MoveComponent" type="Node3D" parent="Behaviours" unique_id=1171732128 node_paths=PackedStringArray("entity")]
+script = ExtResource("1_8ishq")
+entity = NodePath("../..")
+metadata/_custom_type_script = "uid://ip7en84hkm1k"
+
+[node name="PathfindingComponent" type="Node3D" parent="Behaviours" unique_id=2051787819 node_paths=PackedStringArray("navigation_agent_3d")]
+script = ExtResource("9_45eoe")
+navigation_agent_3d = NodePath("../../NavigationAgent3D")
+metadata/_custom_type_script = "uid://cxtbbruw1sas0"
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=903642266]
+path_height_offset = -1.0
+
+[connection signal="on_pathfinding_change" from="Behaviours/PathfindingComponent" to="." method="_on_pathfinding_change"]

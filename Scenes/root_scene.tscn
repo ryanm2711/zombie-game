@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://bjb884gokrp8g"]
+
+[ext_resource type="PackedScene" uid="uid://d3qkg1caj1kpw" path="res://Entities/Player/Player.tscn" id="1_hk3c5"]
+[ext_resource type="Script" uid="uid://6fclv1xa8w87" path="res://Resources/Components/SpawnManager.gd" id="1_llq18"]
+[ext_resource type="Texture2D" uid="uid://dyi7w8f2ij7gw" path="res://addons/kenney_prototype_textures/orange/texture_09.png" id="3_2tpj2"]
+[ext_resource type="Texture2D" uid="uid://sctpfiwm5ar" path="res://addons/kenney_prototype_textures/green/texture_09.png" id="4_llq18"]
+[ext_resource type="PackedScene" uid="uid://diul62gvg8blc" path="res://Entities/Enemies/Zombie/Zombie.tscn" id="5_llq18"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_2tpj2"]
+vertices = PackedVector3Array(5.6875, 0.326, -0.7950001, 6.6875, 0.326, -1.0450001, 6.6875, 0.326, -23.545, -20.3125, 0.326, -23.545, -20.3125, 0.326, 1.2049999, 5.6875, 0.326, 1.2049999, 7.9375, 0.326, -0.7950001, 7.9375, 0.326, 1.2049999, 20.4375, 0.326, 1.2049999, 20.4375, 0.326, -23.545, -20.3125, 0.326, 5.205, 5.6875, 0.326, 5.205, 7.9375, 0.326, 5.205, 20.4375, 0.326, 5.205, 6.6875, 0.326, 23.455, 6.6875, 0.326, 7.455, 5.6875, 0.326, 7.205, -20.3125, 0.326, 23.455, 7.9375, 0.326, 7.205, 20.4375, 0.326, 23.455)
+polygons = [PackedInt32Array(1, 0, 2), PackedInt32Array(2, 0, 3), PackedInt32Array(3, 0, 4), PackedInt32Array(0, 5, 4), PackedInt32Array(8, 7, 6), PackedInt32Array(6, 1, 8), PackedInt32Array(8, 1, 2), PackedInt32Array(8, 2, 9), PackedInt32Array(4, 5, 10), PackedInt32Array(10, 5, 11), PackedInt32Array(7, 8, 12), PackedInt32Array(12, 8, 13), PackedInt32Array(15, 14, 16), PackedInt32Array(16, 14, 17), PackedInt32Array(16, 17, 10), PackedInt32Array(10, 11, 16), PackedInt32Array(18, 12, 13), PackedInt32Array(18, 13, 15), PackedInt32Array(15, 13, 14), PackedInt32Array(14, 13, 19)]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pw4gd"]
+albedo_texture = ExtResource("3_2tpj2")
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqegh"]
+albedo_texture = ExtResource("4_llq18")
+uv1_triplanar = true
+
+[sub_resource type="Environment" id="Environment_kib2a"]
+
+[node name="RootScene" type="Node3D" unique_id=1596513570]
+
+[node name="Managers" type="Node3D" parent="." unique_id=2131652901]
+
+[node name="SpawnManager" type="Node3D" parent="Managers" unique_id=393719992 node_paths=PackedStringArray("spawn_points_node")]
+script = ExtResource("1_llq18")
+object_to_spawn = ExtResource("5_llq18")
+spawn_points_node = NodePath("SpawnPoints")
+
+[node name="SpawnPoints" type="Node3D" parent="Managers/SpawnManager" unique_id=1620773243]
+
+[node name="Marker3D" type="Marker3D" parent="Managers/SpawnManager/SpawnPoints" unique_id=1870832491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.187809, 1.2516172, 0)
+
+[node name="Marker3D2" type="Marker3D" parent="Managers/SpawnManager/SpawnPoints" unique_id=2062166174]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.059484, 3.077363, 14.894308)
+
+[node name="Marker3D3" type="Marker3D" parent="Managers/SpawnManager/SpawnPoints" unique_id=554786953]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6022615, -11.67391)
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=257157693]
+navigation_mesh = SubResource("NavigationMesh_2tpj2")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="NavigationRegion3D" unique_id=229803949]
+transform = Transform3D(1, 0, 0, 0, 0.029, 0, 0, 0, 1, 0, -0.087, 0)
+material_override = SubResource("StandardMaterial3D_pw4gd")
+use_collision = true
+size = Vector3(41.625, 6, 48.09)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="NavigationRegion3D" unique_id=1921257800]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.847002, 0.6585455, 3.1270142)
+material_override = SubResource("StandardMaterial3D_aqegh")
+use_collision = true
+size = Vector3(1, 1.3852234, 7.2540283)
+
+[node name="Player" parent="." unique_id=1386983189 instance=ExtResource("1_hk3c5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.456753, 0.87529564, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1831999586]
+environment = SubResource("Environment_kib2a")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=19575700]
+transform = Transform3D(1, 0, 0, 0, 0.40652937, 0.9136377, 0, -0.9136377, 0.40652937, 0, 14.016994, 0)
+
+[node name="Zombie" parent="." unique_id=721836307 instance=ExtResource("5_llq18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
