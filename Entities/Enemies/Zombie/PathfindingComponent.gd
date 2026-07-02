@@ -15,7 +15,7 @@ func _ready() -> void:
 	_starting_position = _target_position
 	
 func _physics_process(delta: float) -> void:
-	if navigation_agent_3d.is_navigation_finished() or _target_position == _starting_position:
+	if navigation_agent_3d.is_navigation_finished():
 		return
 		
 	var current_pos: Vector3 = global_position
