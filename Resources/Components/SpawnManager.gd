@@ -1,46 +1,65 @@
-class_name SpawnManager extends Node
+class_name SpawnManager extends Node3D
 
-@export var object_to_spawn: PackedScene
+# Drag and drop your enemy scene(s) into the Inspector
+@export var enemy_scenes: Array[PackedScene]
 
-@export var spawn_points_node: Node
+@export var spawn_points_node: Node3D
 
-@export var max_objects: int = 5
+@export var _spawn_timer: Timer
 
-var _spawn_count: int = 0
-var _spawn_points: Array
+# Optional: Automatically spawn on a timer
+@export_category("Settings")
+@export var spawn_cooldown: float = 2.0
+@export var auto_spawn: bool = true
+@export var max_spawn: int = 5
 
-var _last_used_spawn_point: Marker3D
+var _spawn_points: Array[Marker3D] = []
+var _spawned_enemies: int = 0
 
 func _ready() -> void:
-	await owner.ready
-	# Load all spawn points
-	if spawn_points_node:
-		for spawnPoint in spawn_points_node.get_children():
-			_spawn_points.append(spawnPoint)
-	else:
-		push_error("[SPAWN MANAGER] Failed to load spawn points: Spawn points node not loaded in the inspector!")
+	# 1. Gather all Marker3D children automatically
+	for child in spawn_points_node.get_children():
+		if child is Marker3D:
+			_spawn_points.append(child)
+			
+	# Validation check
+	if _spawn_points.is_empty():
+		push_error("SpawnManager: No Marker3D children found!")
 		return
 		
-	for i in range(max_objects):
-		spawn_object()
+	if enemy_scenes.is_empty():
+		push_warning("SpawnManager: No enemy scenes assigned in the inspector.")
 
-func pick_spawn_pos() -> Vector3:
-	var marker3d := _last_used_spawn_point
-	while marker3d == _last_used_spawn_point:
-		marker3d = _spawn_points.pick_random() as Marker3D
-		
-	_last_used_spawn_point = marker3d
-	var pos = marker3d.global_position
-	
-	return pos
+	# 2. Set up the auto-spawn timer if enabled
+	if auto_spawn:
+		setup_timer()
 
-func spawn_object():
-	if not object_to_spawn:
+func setup_timer() -> void:
+	_spawn_timer.wait_time = spawn_cooldown
+	_spawn_timer.timeout.connect(spawn_random_enemy)
+	_spawn_timer.start()
+
+# Call this function to spawn an enemy at a random location
+func spawn_random_enemy() -> void:
+	if enemy_scenes.is_empty() or _spawn_points.is_empty() or _spawned_enemies == max_spawn:
 		return
 		
-	var obj = object_to_spawn.instantiate() as Node3D
-	add_child(obj)
+	# Pick a random enemy scene from the array
+	var random_enemy_scene: PackedScene = enemy_scenes.pick_random()
 	
-	obj.global_position = pick_spawn_pos()
+	# Pick a random Marker3D from the gathered spawn points
+	var random_marker: Marker3D = _spawn_points.pick_random()
 	
-	_spawn_count += 1
+	# Instantiate the enemy
+	var enemy_instance = random_enemy_scene.instantiate()
+	enemy_instance.tree_exited.connect(_on_spawned_enemy_destroyed)
+	
+	add_child(enemy_instance)
+	
+	# Set the enemy's global position and rotation to match the chosen Marker3D
+	enemy_instance.global_transform = random_marker.global_transform
+	
+	_spawned_enemies += 1
+
+func _on_spawned_enemy_destroyed():
+	_spawned_enemies -= 1
