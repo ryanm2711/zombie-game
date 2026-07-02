@@ -1,7 +1,9 @@
 class_name ZombieState extends State
 
 const IDLE = "States/Idle"
-const CHASING = "States/Chasing"
+const CHASING = "States/Chase"
+const WANDERING = "States/Wander"
+const ATTACKING = "States/Attack"
 
 var zombie: Zombie
 
