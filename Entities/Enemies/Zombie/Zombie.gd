@@ -13,6 +13,7 @@ func _ready() -> void:
 
 func _on_pathfinding_change(currentPos: Vector3, nextPos: Vector3) -> void:
 	if not move_component:
+		push_error("[ZOMBIE] No move component available, cannot send pathfinding coords to movement!")
 		return
 	
 	var direction = currentPos.direction_to(nextPos)
