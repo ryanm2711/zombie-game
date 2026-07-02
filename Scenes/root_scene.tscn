@@ -24,10 +24,12 @@ uv1_triplanar = true
 
 [node name="Managers" type="Node3D" parent="." unique_id=2131652901]
 
-[node name="SpawnManager" type="Node3D" parent="Managers" unique_id=393719992 node_paths=PackedStringArray("spawn_points_node")]
+[node name="SpawnManager" type="Node3D" parent="Managers" unique_id=393719992 node_paths=PackedStringArray("spawn_points_node", "_spawn_timer")]
 script = ExtResource("1_llq18")
-object_to_spawn = ExtResource("5_llq18")
+enemy_scenes = Array[PackedScene]([ExtResource("5_llq18")])
 spawn_points_node = NodePath("SpawnPoints")
+_spawn_timer = NodePath("SpawnTimer")
+max_spawn = 1
 
 [node name="SpawnPoints" type="Node3D" parent="Managers/SpawnManager" unique_id=1620773243]
 
@@ -39,6 +41,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.059484, 3.077363, 14.8943
 
 [node name="Marker3D3" type="Marker3D" parent="Managers/SpawnManager/SpawnPoints" unique_id=554786953]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6022615, -11.67391)
+
+[node name="SpawnTimer" type="Timer" parent="Managers/SpawnManager" unique_id=1129028636]
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=257157693]
 navigation_mesh = SubResource("NavigationMesh_2tpj2")
@@ -63,6 +67,3 @@ environment = SubResource("Environment_kib2a")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=19575700]
 transform = Transform3D(1, 0, 0, 0, 0.40652937, 0.9136377, 0, -0.9136377, 0.40652937, 0, 14.016994, 0)
-
-[node name="Zombie" parent="." unique_id=721836307 instance=ExtResource("5_llq18")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
