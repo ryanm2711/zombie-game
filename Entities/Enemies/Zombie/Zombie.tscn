@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bsbpt5n0rk2qr" path="res://Entities/Enemies/Zombie/States/ZombieIdle.gd" id="5_121u4"]
 [ext_resource type="Script" uid="uid://wuah27w4mbrm" path="res://Entities/Enemies/Zombie/States/ZombieChase.gd" id="6_ygk8b"]
 [ext_resource type="Script" uid="uid://bq34aq4winv3s" path="res://Entities/Enemies/Zombie/States/ZombieWander.gd" id="7_ebh3a"]
+[ext_resource type="Script" uid="uid://c7yymto8qwos7" path="res://Entities/Enemies/Zombie/States/ZombieAttack.gd" id="8_1axnw"]
 [ext_resource type="Script" uid="uid://cxtbbruw1sas0" path="res://Entities/Enemies/Zombie/PathfindingComponent.gd" id="9_45eoe"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_520xa"]
@@ -46,7 +47,7 @@ shape = SubResource("CapsuleShape3D_3xd07")
 
 [node name="StateMachine" type="Node" parent="Behaviours" unique_id=707928463 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_krbvh")
-initial_state = NodePath("States/Wander")
+initial_state = NodePath("States/Chase")
 metadata/_custom_type_script = "uid://bml1pbtn6odbf"
 
 [node name="States" type="Node" parent="Behaviours/StateMachine" unique_id=616157134]
@@ -57,10 +58,15 @@ metadata/_custom_type_script = "uid://dptp4k2n7xamn"
 
 [node name="Chase" type="Node" parent="Behaviours/StateMachine/States" unique_id=1706395197]
 script = ExtResource("6_ygk8b")
+player_pos_update_cooldown = 0.25
 metadata/_custom_type_script = "uid://dptp4k2n7xamn"
 
 [node name="Wander" type="Node" parent="Behaviours/StateMachine/States" unique_id=1860040724]
 script = ExtResource("7_ebh3a")
+
+[node name="Attack" type="Node" parent="Behaviours/StateMachine/States" unique_id=1663380098 node_paths=PackedStringArray("attack_ray_cast")]
+script = ExtResource("8_1axnw")
+attack_ray_cast = NodePath("../../../../AttackRayCast")
 
 [node name="HealthComponent" type="Node3D" parent="Behaviours" unique_id=1784841452]
 script = ExtResource("2_l4jtg")
@@ -78,5 +84,9 @@ metadata/_custom_type_script = "uid://cxtbbruw1sas0"
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=903642266]
 path_height_offset = -1.0
+debug_enabled = true
+
+[node name="AttackRayCast" type="RayCast3D" parent="." unique_id=1173510190]
+target_position = Vector3(0, 0, 1.5)
 
 [connection signal="on_pathfinding_change" from="Behaviours/PathfindingComponent" to="." method="_on_pathfinding_change"]
