@@ -1,6 +1,11 @@
 class_name HealthComponent extends Node3D
 
-@export var health: float = 100.0
+@export var health: float = 100.0:
+	set(new_health):
+		health = max(0, new_health)
+		print("Owner: ", owner, " New Health: ", new_health)
+	get:
+		return health
 
 var entity: Node3D
 
