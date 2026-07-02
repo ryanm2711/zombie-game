@@ -17,6 +17,8 @@
 [ext_resource type="Script" uid="uid://hk77jnkr2kqf" path="res://Resources/Components/CameraShakeComponent.gd" id="14_gallu"]
 [ext_resource type="Texture2D" uid="uid://c3f5bwfgjqqdg" path="res://addons/kenney_crosshair-pack/Tilesheet/crosshairs_tilesheet_white.png" id="14_uw7o4"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3xd07"]
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mq5ly"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gallu"]
@@ -29,6 +31,12 @@ input_component = NodePath("Behaviours/InputComponent")
 movement_component = NodePath("Behaviours/MoveComponent")
 camera_component = NodePath("Behaviours/CameraComponent")
 combat_component = NodePath("Behaviours/CombatComponent")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=838925865]
+mesh = SubResource("CapsuleMesh_3xd07")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1899705066]
+shape = SubResource("CapsuleShape3D_mq5ly")
 
 [node name="Behaviours" type="Node3D" parent="." unique_id=562853512]
 
@@ -85,9 +93,6 @@ metadata/_custom_type_script = "uid://bfif1rdnu8uwh"
 script = ExtResource("14_gallu")
 camera = NodePath("../../Camera3D")
 metadata/_custom_type_script = "uid://hk77jnkr2kqf"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1899705066]
-shape = SubResource("CapsuleShape3D_mq5ly")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=522875239]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
