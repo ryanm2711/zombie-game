@@ -29,9 +29,6 @@ func _physics_process(delta: float) -> void:
 		entity.velocity.y += GameManager.GRAVITY * delta
 		
 	# Calculate direction relative to entity orientation
-	if self.owner is Zombie:
-		#print("move dir: ", _current_move_dir)
-		pass
 	var direction = (entity.transform.basis * _current_move_dir.normalized())
 	
 	if direction:
@@ -41,8 +38,6 @@ func _physics_process(delta: float) -> void:
 		entity.velocity.x = move_toward(entity.velocity.x, 0, current_speed)
 		entity.velocity.z = move_toward(entity.velocity.z, 0, current_speed)
 		
-	if self.owner is Zombie:
-		print(entity.velocity)
 	entity.move_and_slide()
 	
 func _on_input_component_on_movement_input_change(direction: Vector2) -> void:
