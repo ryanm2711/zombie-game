@@ -24,19 +24,22 @@ func _physics_process(delta: float) -> void:
 	if not entity:
 		return
 		
+	var target_speed = current_speed
+		
 	# Apply gravity
 	if not entity.is_on_floor():
+		target_speed /= 2
 		entity.velocity.y += GameManager.GRAVITY * delta
 		
 	# Calculate direction relative to entity orientation
 	var direction = (entity.transform.basis * _current_move_dir.normalized())
 	
 	if direction:
-		entity.velocity.x = direction.x * current_speed
-		entity.velocity.z = direction.z * current_speed
+		entity.velocity.x = direction.x * target_speed
+		entity.velocity.z = direction.z * target_speed
 	else:
-		entity.velocity.x = move_toward(entity.velocity.x, 0, current_speed)
-		entity.velocity.z = move_toward(entity.velocity.z, 0, current_speed)
+		entity.velocity.x = move_toward(entity.velocity.x, 0, target_speed)
+		entity.velocity.z = move_toward(entity.velocity.z, 0, target_speed)
 		
 	entity.move_and_slide()
 	

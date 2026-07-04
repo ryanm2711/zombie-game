@@ -4,7 +4,8 @@ extends PlayerState
 
 func enter(_previous_state_path: String, _data := {}) -> void:
 	# Set base speed on our movement component
-	player.movement_component.current_speed = speed_in_air
+	#player.movement_component.current_speed = player.movement_component.current_speed / 2
+	pass
 
 func physics_update(_delta: float) -> void:
 	# Once we hit the floor, decide whether we are idling or running
