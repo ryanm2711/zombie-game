@@ -27,7 +27,7 @@ func update(_delta: float) -> void:
 	if _attack_timer >= attack_cooldown:
 		finished.emit(CHASING)
 
-func _attack() -> void:
+func _attack() -> void:	
 	if not attack_ray_cast:
 		return
 		
@@ -38,6 +38,6 @@ func _attack() -> void:
 	if attack_ray_cast.is_colliding():
 		var target = attack_ray_cast.get_collider()
 		
-		var health_component = target.get_node_or_null("HealthComponent") as HealthComponent
-		if health_component:
+		var health_component = target.get_node_or_null("Behaviours/HealthComponent") as HealthComponent
+		if health_component != null:
 			health_component.take_damage(attack_damage)
