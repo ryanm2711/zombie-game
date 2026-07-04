@@ -3,6 +3,7 @@ class_name InputComponent extends Node3D
 signal on_movement_input_change(direction: Vector2)
 signal on_camera_input_change(relative_motion: Vector2)
 signal jump_pressed
+signal noclip_pressed
 
 signal attack_pressed
 signal attack_released
@@ -36,6 +37,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		attack_pressed.emit()
 	elif event.is_action_released("primaryattack"):
 		attack_released.emit()
+		
+	if event.is_action_pressed("noclip"):
+		noclip_pressed.emit()
 		
 	if event.is_action_pressed("reload"):
 		reload_weapon.emit()
