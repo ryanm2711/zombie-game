@@ -16,12 +16,12 @@ func update(_delta: float) -> void:
 		return
 		
 	# Transition to Sprint or Crouch
-	if Input.is_action_just_released("sprint"):
+	if not player.input_component.is_sprinting:
 		finished.emit(RUNNING)
-	elif Input.is_action_pressed("crouch"):
+	elif player.input_component.is_crouching:
 		finished.emit(CROUCHING)
 		
 func handle_input(event: InputEvent) -> void:
-	if event.is_action_pressed("jump"):
-		finished.emit(JUMPING, {"sprint_speed": sprint_speed})
+	if player.input_component.is_jumping:
+		finished.emit(JUMPING, {"speed": sprint_speed})
 		return

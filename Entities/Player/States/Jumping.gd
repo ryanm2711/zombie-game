@@ -4,7 +4,10 @@ extends PlayerState
 
 func enter(_previous_state_path: String, _data := {}) -> void:
 	# Trigger the actual physics jump on our component
-	player.movement_component.current_speed = speed_in_air
+	#if _data["speed"]:
+		#player.movement_component.current_speed = _data["speed"]
+	#else:
+		#player.movement_component.current_speed = speed_in_air
 	player.movement_component.apply_jump()
 	
 func physics_update(_delta: float) -> void:

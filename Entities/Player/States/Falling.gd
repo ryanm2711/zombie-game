@@ -11,7 +11,10 @@ func physics_update(_delta: float) -> void:
 	if player.is_on_floor():
 		var move_dir = player.movement_component.get_movement_direction()
 		if move_dir.length_squared() > 0.001:
-			finished.emit(RUNNING)
+			if player.input_component.is_sprinting:
+				finished.emit(SPRINTING)
+			else:
+				finished.emit(RUNNING)
 		else:
 			finished.emit(IDLE)
 		return

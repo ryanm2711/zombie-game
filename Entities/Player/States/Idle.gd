@@ -9,10 +9,10 @@ func update(_delta: float) -> void:
 		finished.emit(RUNNING)
 		return
 		
-	if Input.is_action_pressed("crouch"):
+	if player.input_component.is_crouching:
 		finished.emit(CROUCHING)
 		return
 
 func handle_input(event: InputEvent) -> void:
-	if event.is_action_pressed("jump") and player.is_on_floor():
+	if player.input_component.is_jumping and player.is_on_floor():
 		finished.emit(JUMPING)

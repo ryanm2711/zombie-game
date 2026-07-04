@@ -16,13 +16,13 @@ func update(_delta: float) -> void:
 		return
 
 func handle_input(event: InputEvent) -> void:
-	if event.is_action_pressed("jump"):
-		finished.emit(JUMPING)
+	if player.input_component.is_jumping:
+		finished.emit(JUMPING, {"speed": run_speed})
 		return
 		
-	if Input.is_action_pressed("sprint"):
+	if player.input_component.is_sprinting:
 		finished.emit(SPRINTING)
 		return
-	elif Input.is_action_pressed("crouch"):
+	elif player.input_component.is_crouching:
 		finished.emit(CROUCHING)
 		return
