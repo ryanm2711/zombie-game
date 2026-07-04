@@ -26,6 +26,7 @@ atlas = ExtResource("14_uw7o4")
 region = Rect2(0, 0, 64, 64)
 
 [node name="Player" type="CharacterBody3D" unique_id=1386983189 node_paths=PackedStringArray("input_component", "movement_component", "camera_component", "combat_component")]
+collision_layer = 512
 script = ExtResource("1_e5kic")
 input_component = NodePath("Behaviours/InputComponent")
 movement_component = NodePath("Behaviours/MoveComponent")
