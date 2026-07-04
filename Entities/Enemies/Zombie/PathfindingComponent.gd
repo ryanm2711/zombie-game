@@ -2,6 +2,8 @@ class_name PathfindingComponent extends Node3D
 
 @export var navigation_agent_3d: NavigationAgent3D
 
+@export var turn_speed: float = 8.0
+
 var _starting_position: Vector3
 var _target_position: Vector3
 
@@ -20,6 +22,13 @@ func _physics_process(delta: float) -> void:
 		
 	var current_pos: Vector3 = global_position
 	var next_path_pos: Vector3 = navigation_agent_3d.get_next_path_position()
+	var target_angle := atan2(current_pos.x - next_path_pos.x, current_pos.z - next_path_pos.z)
+	
+	# Flip 180 degrees
+	target_angle += PI
+	
+	if owner:
+		owner.rotation.y = lerp_angle(owner.rotation.y, target_angle, turn_speed * delta)
 	
 	if current_pos != next_path_pos:
 		on_pathfinding_change.emit(current_pos, next_path_pos)

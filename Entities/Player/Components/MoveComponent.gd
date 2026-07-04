@@ -4,7 +4,7 @@ class_name MoveComponent extends Node3D
 
 @export var jump_power: float = 4.5
 
-@export var is_player_controlled: bool = true
+@export var is_player_controlled: bool = false
 
 var current_speed: float = 0.0
 var _current_move_dir := Vector3.ZERO
@@ -32,8 +32,13 @@ func _physics_process(delta: float) -> void:
 		entity.velocity.y += GameManager.GRAVITY * delta
 		
 	# Calculate direction relative to entity orientation
-	var direction = (entity.transform.basis * _current_move_dir.normalized())
-	
+	var direction = Vector3.ZERO
+	if is_player_controlled: # Convert local coordinates to world
+		direction = (entity.transform.basis * _current_move_dir.normalized())
+	else:
+		# This is for AI, which already is using world coordinates
+		direction = _current_move_dir.normalized()
+		
 	if direction:
 		entity.velocity.x = direction.x * target_speed
 		entity.velocity.z = direction.z * target_speed

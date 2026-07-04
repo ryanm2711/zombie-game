@@ -71,6 +71,7 @@ script = ExtResource("6_t38ms")
 script = ExtResource("7_hj1c0")
 entity = NodePath("../..")
 jump_power = 3.5
+is_player_controlled = true
 
 [node name="CameraComponent" type="Node3D" parent="Behaviours" unique_id=1959287134 node_paths=PackedStringArray("camera", "entity")]
 script = ExtResource("4_1des2")
