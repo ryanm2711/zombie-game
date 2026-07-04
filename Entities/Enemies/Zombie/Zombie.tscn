@@ -43,6 +43,10 @@ mesh = SubResource("CapsuleMesh_3xd07")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=406839961]
 shape = SubResource("CapsuleShape3D_3xd07")
 
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=903642266]
+path_height_offset = -1.0
+debug_enabled = true
+
 [node name="Behaviours" type="Node3D" parent="." unique_id=11046669]
 
 [node name="StateMachine" type="Node" parent="Behaviours" unique_id=707928463 node_paths=PackedStringArray("initial_state")]
@@ -82,10 +86,6 @@ metadata/_custom_type_script = "uid://ip7en84hkm1k"
 script = ExtResource("9_45eoe")
 navigation_agent_3d = NodePath("../../NavigationAgent3D")
 metadata/_custom_type_script = "uid://cxtbbruw1sas0"
-
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=903642266]
-path_height_offset = -1.0
-debug_enabled = true
 
 [node name="AttackRayCast" type="RayCast3D" parent="." unique_id=1173510190]
 target_position = Vector3(0, 0, 1.5)
