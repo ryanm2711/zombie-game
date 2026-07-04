@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ip7en84hkm1k" path="res://Entities/Player/Components/MoveComponent.gd" id="1_8ishq"]
 [ext_resource type="Script" uid="uid://kleni0bma16l" path="res://Entities/Enemies/Zombie/Zombie.gd" id="1_520xa"]
-[ext_resource type="PackedScene" uid="uid://bhv8lyjkaad6b" path="res://Assets/Models/Zombies/zombie.glb" id="2_ebh3a"]
+[ext_resource type="PackedScene" uid="uid://c5stxtuyyq5rm" path="res://Assets/Models/Zombies/zombie.blend" id="2_ebh3a"]
 [ext_resource type="Script" uid="uid://bfif1rdnu8uwh" path="res://Resources/Components/HealthComponent.gd" id="2_l4jtg"]
 [ext_resource type="Script" uid="uid://bml1pbtn6odbf" path="res://Entities/StateMachine/StateMachine.gd" id="3_krbvh"]
 [ext_resource type="Script" uid="uid://bsbpt5n0rk2qr" path="res://Entities/Enemies/Zombie/States/ZombieIdle.gd" id="5_121u4"]
@@ -11,7 +11,26 @@
 [ext_resource type="Script" uid="uid://c7yymto8qwos7" path="res://Entities/Enemies/Zombie/States/ZombieAttack.gd" id="8_1axnw"]
 [ext_resource type="Script" uid="uid://cxtbbruw1sas0" path="res://Entities/Enemies/Zombie/PathfindingComponent.gd" id="9_45eoe"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xd07"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_3xd07"]
+size = Vector3(0.31835938, 0.50930786, 0.20715332)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jq8tk"]
+size = Vector3(0.10839844, 0.79002, 0.15722656)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1axnw"]
+size = Vector3(0.10839844, 0.85204124, 0.15722656)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6fhyq"]
+size = Vector3(0.09033203, 0.53570557, 0.095214844)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t6j1k"]
+size = Vector3(0.09033203, 0.54519653, 0.095214844)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebh3a"]
+size = Vector3(0.09033203, 0.29211426, 0.095214844)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3xd07"]
+radius = 0.18040156
 
 [node name="Zombie" type="CharacterBody3D" unique_id=721836307 node_paths=PackedStringArray("move_component", "health_component", "pathfinding_component")]
 script = ExtResource("1_520xa")
@@ -19,10 +38,19 @@ move_component = NodePath("Behaviours/MoveComponent")
 health_component = NodePath("Behaviours/HealthComponent")
 pathfinding_component = NodePath("Behaviours/PathfindingComponent")
 
-[node name="mesh" parent="." unique_id=847966544 instance=ExtResource("2_ebh3a")]
+[node name="body_col" type="CollisionShape3D" parent="." unique_id=865966555]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1834259, -0.022399902)
+shape = SubResource("BoxShape3D_3xd07")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=406839961]
-shape = SubResource("CapsuleShape3D_3xd07")
+[node name="leg02_col" type="CollisionShape3D" parent="." unique_id=664441176]
+transform = Transform3D(0.998634, -0.05224985, 0, 0.05224985, 0.998634, 0, 0, 0, 1, 0.09880169, -0.4393676, -0.038150705)
+shape = SubResource("BoxShape3D_jq8tk")
+
+[node name="leg01_col" type="CollisionShape3D" parent="." unique_id=1553274285]
+transform = Transform3D(0.9893083, 0.14583932, 0, -0.14583932, 0.9893083, 0, 0, 0, 1, -0.10488292, -0.40640327, -0.038150705)
+shape = SubResource("BoxShape3D_1axnw")
+
+[node name="mesh" parent="." unique_id=2057501829 instance=ExtResource("2_ebh3a")]
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=903642266]
 path_height_offset = -1.0
@@ -71,6 +99,26 @@ metadata/_custom_type_script = "uid://cxtbbruw1sas0"
 [node name="AttackRayCast" type="RayCast3D" parent="." unique_id=1173510190]
 target_position = Vector3(0, 0, 1.5)
 collision_mask = 512
+
+[node name="arm01_col1" type="CollisionShape3D" parent="." unique_id=65365042]
+transform = Transform3D(0.8589899, 0.5119925, 0, -0.5119925, 0.8589899, 0, 0, 0, 1, -0.21053037, 0.20625417, -0.08330868)
+shape = SubResource("BoxShape3D_6fhyq")
+
+[node name="arm01_col2" type="CollisionShape3D" parent="." unique_id=1611730119]
+transform = Transform3D(0.99990344, 0.013903559, 0, -0.013082591, 0.9408618, 0.33853826, 0.0047068857, -0.3385055, 0.94095266, -0.27975243, -0.14728384, 0.0049733417)
+shape = SubResource("BoxShape3D_t6j1k")
+
+[node name="arm02_col1" type="CollisionShape3D" parent="." unique_id=92645969]
+transform = Transform3D(-0.8724831, 0.45839006, 0.16926913, -0.48862183, -0.82176197, -0.29318276, 0.004706886, -0.33850554, 0.94095266, 0.22333926, 0.20741263, -0.03786153)
+shape = SubResource("BoxShape3D_ebh3a")
+
+[node name="arm02_col2" type="CollisionShape3D" parent="." unique_id=1259232088]
+transform = Transform3D(-0.9999034, -0.013903589, 0, 0.013442254, -0.9667256, 0.25546244, -0.0035518438, 0.2554377, 0.966819, 0.28046158, -0.14712758, -0.012233527)
+shape = SubResource("BoxShape3D_6fhyq")
+
+[node name="head_col" type="CollisionShape3D" parent="." unique_id=498699775]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57336384, 0.11711317)
+shape = SubResource("SphereShape3D_3xd07")
 
 [connection signal="on_entity_death" from="Behaviours/HealthComponent" to="." method="_on_entity_death"]
 [connection signal="on_pathfinding_change" from="Behaviours/PathfindingComponent" to="." method="_on_pathfinding_change"]
