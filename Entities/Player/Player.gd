@@ -5,6 +5,8 @@ class_name Player extends CharacterBody3D
 @export var camera_component: CameraComponent
 @export var combat_component: CombatComponent
 
+var is_dead: bool = false
+
 func _ready() -> void:
 	GameManager.register_player(self)
 	
@@ -20,3 +22,7 @@ func _ready() -> void:
 		
 func _exit_tree() -> void:
 	GameManager.unregister_player()
+
+
+func _on_player_death(entity: Node3D) -> void:
+	is_dead = true
