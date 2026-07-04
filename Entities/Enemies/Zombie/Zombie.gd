@@ -18,3 +18,7 @@ func _on_pathfinding_change(currentPos: Vector3, nextPos: Vector3) -> void:
 	
 	var direction = currentPos.direction_to(nextPos)
 	move_component.set_movement_direction(direction)
+
+
+func _on_entity_death(entity: Node3D) -> void:
+	queue_free()

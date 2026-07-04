@@ -10,6 +10,7 @@ class_name HealthComponent extends Node3D
 var entity: Node3D
 
 signal on_entity_take_damage(entity:Node3D, newHealth: float, oldHealth: float)
+signal on_entity_death(entity: Node3D)
 
 func _ready():
 	await owner.ready
@@ -18,7 +19,7 @@ func _ready():
 
 func _process(_delta: float):
 	if health <= 0 and entity:
-		entity.queue_free() # Temporary, idk if to have death handled in here or not
+		on_entity_death.emit(entity)
 
 func set_health(newHP: float):
 	health = newHP
