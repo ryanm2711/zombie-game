@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ip7en84hkm1k" path="res://Entities/Player/Components/MoveComponent.gd" id="1_8ishq"]
 [ext_resource type="Script" uid="uid://kleni0bma16l" path="res://Entities/Enemies/Zombie/Zombie.gd" id="1_520xa"]
-[ext_resource type="Texture2D" uid="uid://du8aa5ubi28pe" path="res://addons/kenney_prototype_textures/red/texture_02.png" id="1_bpf0s"]
-[ext_resource type="Texture2D" uid="uid://felk6rkih1ty" path="res://addons/kenney_prototype_textures/red/texture_05.png" id="2_krbvh"]
+[ext_resource type="PackedScene" uid="uid://bhv8lyjkaad6b" path="res://Assets/Models/Zombies/zombie.glb" id="2_ebh3a"]
 [ext_resource type="Script" uid="uid://bfif1rdnu8uwh" path="res://Resources/Components/HealthComponent.gd" id="2_l4jtg"]
 [ext_resource type="Script" uid="uid://bml1pbtn6odbf" path="res://Entities/StateMachine/StateMachine.gd" id="3_krbvh"]
 [ext_resource type="Script" uid="uid://bsbpt5n0rk2qr" path="res://Entities/Enemies/Zombie/States/ZombieIdle.gd" id="5_121u4"]
@@ -11,17 +10,6 @@
 [ext_resource type="Script" uid="uid://bq34aq4winv3s" path="res://Entities/Enemies/Zombie/States/ZombieWander.gd" id="7_ebh3a"]
 [ext_resource type="Script" uid="uid://c7yymto8qwos7" path="res://Entities/Enemies/Zombie/States/ZombieAttack.gd" id="8_1axnw"]
 [ext_resource type="Script" uid="uid://cxtbbruw1sas0" path="res://Entities/Enemies/Zombie/PathfindingComponent.gd" id="9_45eoe"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_520xa"]
-albedo_texture = ExtResource("1_bpf0s")
-
-[sub_resource type="BoxMesh" id="BoxMesh_3xd07"]
-size = Vector3(1, 0.11425781, 0.22949219)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dp0cu"]
-albedo_texture = ExtResource("2_krbvh")
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_3xd07"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xd07"]
 
@@ -31,14 +19,7 @@ move_component = NodePath("Behaviours/MoveComponent")
 health_component = NodePath("Behaviours/HealthComponent")
 pathfinding_component = NodePath("Behaviours/PathfindingComponent")
 
-[node name="eyes" type="MeshInstance3D" parent="." unique_id=205235939]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5571289, 0.3852539)
-material_override = SubResource("StandardMaterial3D_520xa")
-mesh = SubResource("BoxMesh_3xd07")
-
-[node name="body" type="MeshInstance3D" parent="." unique_id=1446988676]
-material_override = SubResource("StandardMaterial3D_dp0cu")
-mesh = SubResource("CapsuleMesh_3xd07")
+[node name="mesh" parent="." unique_id=847966544 instance=ExtResource("2_ebh3a")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=406839961]
 shape = SubResource("CapsuleShape3D_3xd07")
