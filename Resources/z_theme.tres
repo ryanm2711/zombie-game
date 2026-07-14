@@ -1,0 +1,5 @@
+[gd_resource type="Theme" format=3 uid="uid://co106femnf8me"]
+
+[resource]
+Label/colors/font_color = Color(0.57088536, 0, 0.09224994, 1)
+TextureRect/colors/accent_color = Color(0.5568628, 0, 0, 1)

@@ -1,7 +1,7 @@
 [gd_resource type="StandardMaterial3D" format=3 uid="uid://ft3rggjqk154"]
 
 [ext_resource type="Texture2D" uid="uid://bu7s658i638dq" path="res://Assets/Models/Zombies/textures/body3/Zombie_defaultMat_AlbedoTransparency.png" id="1_tfjvo"]
-[ext_resource type="Texture2D" uid="uid://cco5g1x0m16xk" path="res://Assets/Models/Zombies/textures/body3/Zombie_defaultMat_Emission.png" id="2_jusuo"]
+[ext_resource type="Texture2D" uid="uid://datyq1kko81j0" path="res://Assets/Models/Zombies/textures/body/Zombie_defaultMat_Emission.png" id="2_tfjvo"]
 [ext_resource type="Texture2D" uid="uid://cn5c2qr515lvk" path="res://Assets/Models/Zombies/textures/body3/Zombie_defaultMat_SpecularSmoothness.png" id="3_xu0bm"]
 [ext_resource type="Texture2D" uid="uid://87jhuwlhmgqu" path="res://Assets/Models/Zombies/textures/body3/Zombie_defaultMat_Normal.png" id="4_i5nol"]
 
@@ -10,6 +10,6 @@ albedo_texture = ExtResource("1_tfjvo")
 metallic = 1.0
 metallic_texture = ExtResource("3_xu0bm")
 emission_enabled = true
-emission_texture = ExtResource("2_jusuo")
+emission_texture = ExtResource("2_tfjvo")
 normal_enabled = true
 normal_texture = ExtResource("4_i5nol")

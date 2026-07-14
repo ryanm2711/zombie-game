@@ -23,6 +23,9 @@ func apply_jump() -> void:
 		entity.velocity.y += jump_power
 	
 func _physics_process(delta: float) -> void:
+	if GameManager.is_game_paused():
+		return
+	
 	if not entity:
 		return
 		

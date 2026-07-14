@@ -1,23 +1,21 @@
-class_name SpawnManager extends Node3D
+class_name SpawnManager extends Node
 
-# Drag and drop your enemy scene(s) into the Inspector
 @export var enemy_scenes: Array[PackedScene]
+@export var spawn_points_node: Node
+@export var spawn_timer: Timer
 
-@export var spawn_points_node: Node3D
-
-@export var _spawn_timer: Timer
-
-# Optional: Automatically spawn on a timer
 @export_category("Settings")
-@export var spawn_cooldown: float = 2.0
-@export var auto_spawn: bool = true
-@export var max_spawn: int = 5
+@export var auto_spawn: bool
+@export var max_active_spawn: int = 24
+@export var max_total_spawn: int = -1
 
 var _spawn_points: Array[Marker3D] = []
-var _spawned_enemies: int = 0
+var _current_spawn_count: int = 0
+var _total_spawn_count: int = 0
+
+signal on_all_enemies_cleared
 
 func _ready() -> void:
-	# 1. Gather all Marker3D children automatically
 	for child in spawn_points_node.get_children():
 		if child is Marker3D:
 			_spawn_points.append(child)
@@ -29,21 +27,11 @@ func _ready() -> void:
 		
 	if enemy_scenes.is_empty():
 		push_warning("SpawnManager: No enemy scenes assigned in the inspector.")
-
-	# 2. Set up the auto-spawn timer if enabled
-	if auto_spawn:
-		setup_timer()
-
-func setup_timer() -> void:
-	_spawn_timer.wait_time = spawn_cooldown
-	_spawn_timer.timeout.connect(spawn_random_enemy)
-	_spawn_timer.start()
-
-# Call this function to spawn an enemy at a random location
-func spawn_random_enemy() -> void:
-	if enemy_scenes.is_empty() or _spawn_points.is_empty() or _spawned_enemies == max_spawn:
-		return
 		
+func spawn_random_enemy() -> void:
+	if enemy_scenes.is_empty() or _spawn_points.is_empty() or _current_spawn_count == max_active_spawn or _total_spawn_count == max_total_spawn:
+		return
+	
 	# Pick a random enemy scene from the array
 	var random_enemy_scene: PackedScene = enemy_scenes.pick_random()
 	
@@ -59,7 +47,16 @@ func spawn_random_enemy() -> void:
 	# Set the enemy's global position and rotation to match the chosen Marker3D
 	enemy_instance.global_transform = random_marker.global_transform
 	
-	_spawned_enemies += 1
-
+	_current_spawn_count += 1
+	_total_spawn_count += 1
+	
 func _on_spawned_enemy_destroyed():
-	_spawned_enemies -= 1
+	_current_spawn_count -= 1
+	
+	if _current_spawn_count == 0:
+		on_all_enemies_cleared.emit()
+		_total_spawn_count = 0
+		
+func _on_spawn_timer_timeout() -> void:
+	if auto_spawn and not GameManager.is_game_paused():
+		spawn_random_enemy()

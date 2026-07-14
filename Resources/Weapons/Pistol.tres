@@ -8,6 +8,7 @@
 [resource]
 script = ExtResource("1_2uslf")
 weapon_mesh = ExtResource("2_uuj3x")
+damage = 40.0
 weapon_muzzle_flash = ExtResource("3_8uc0g")
 shake_intensity = 0.05
 fire_sound = ExtResource("1_d7vym")

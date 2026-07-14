@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://d3qkg1caj1kpw" path="res://Entities/Player/Player.tscn" id="1_hk3c5"]
 [ext_resource type="Script" uid="uid://6fclv1xa8w87" path="res://Resources/Components/SpawnManager.gd" id="1_llq18"]
 [ext_resource type="Texture2D" uid="uid://dyi7w8f2ij7gw" path="res://addons/kenney_prototype_textures/orange/texture_09.png" id="3_2tpj2"]
+[ext_resource type="Script" uid="uid://c4rfrdvrm7ybq" path="res://Resources/Components/RoundManager.gd" id="3_pw4gd"]
 [ext_resource type="Texture2D" uid="uid://sctpfiwm5ar" path="res://addons/kenney_prototype_textures/green/texture_09.png" id="4_llq18"]
 [ext_resource type="PackedScene" uid="uid://diul62gvg8blc" path="res://Entities/Enemies/Zombie/Zombie.tscn" id="5_llq18"]
 
@@ -24,16 +25,15 @@ uv1_triplanar = true
 
 [node name="RootScene" type="Node3D" unique_id=1596513570]
 
-[node name="Managers" type="Node3D" parent="." unique_id=2131652901]
+[node name="Managers" type="Node" parent="." unique_id=163431667]
 
-[node name="SpawnManager" type="Node3D" parent="Managers" unique_id=393719992 node_paths=PackedStringArray("spawn_points_node", "_spawn_timer")]
+[node name="SpawnManager" type="Node" parent="Managers" unique_id=239822357 node_paths=PackedStringArray("spawn_points_node", "spawn_timer")]
 script = ExtResource("1_llq18")
 enemy_scenes = Array[PackedScene]([ExtResource("5_llq18")])
 spawn_points_node = NodePath("SpawnPoints")
-_spawn_timer = NodePath("SpawnTimer")
-max_spawn = 20
+spawn_timer = NodePath("SpawnTimer")
 
-[node name="SpawnPoints" type="Node3D" parent="Managers/SpawnManager" unique_id=1620773243]
+[node name="SpawnPoints" type="Node" parent="Managers/SpawnManager" unique_id=1268836261]
 
 [node name="Marker3D" type="Marker3D" parent="Managers/SpawnManager/SpawnPoints" unique_id=1870832491]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.187809, 1.2516172, 0)
@@ -45,6 +45,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.059484, 3.077363, 14.8943
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.6022615, -11.67391)
 
 [node name="SpawnTimer" type="Timer" parent="Managers/SpawnManager" unique_id=1129028636]
+wait_time = 2.0
+autostart = true
+
+[node name="RoundManager" type="Node" parent="Managers" unique_id=2089255216 node_paths=PackedStringArray("spawn_manager")]
+script = ExtResource("3_pw4gd")
+spawn_manager = NodePath("../SpawnManager")
+metadata/_custom_type_script = "uid://c4rfrdvrm7ybq"
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=257157693]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.017098904, -0.13484907, -0.11241913)
@@ -70,3 +77,6 @@ environment = SubResource("Environment_kib2a")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=19575700]
 transform = Transform3D(1, 0, 0, 0, 0.40652937, 0.9136377, 0, -0.9136377, 0.40652937, 0, 14.016994, 0)
+
+[connection signal="on_all_enemies_cleared" from="Managers/SpawnManager" to="Managers/RoundManager" method="_on_spawn_manager_on_all_enemies_cleared"]
+[connection signal="timeout" from="Managers/SpawnManager/SpawnTimer" to="Managers/SpawnManager" method="_on_spawn_timer_timeout"]

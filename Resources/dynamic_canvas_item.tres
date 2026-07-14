@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dxqc63k1nc6sw"]
+
+[ext_resource type="Shader" uid="uid://bpd1ukhao70u6" path="res://Resources/dynamic_canvas_item.gdshader" id="1_qrtjj"]
+
+[resource]
+shader = ExtResource("1_qrtjj")
+shader_parameter/origin = Color(1, 1, 1, 1)
+shader_parameter/newColor = Color(0.7176471, 0, 0, 1)

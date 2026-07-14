@@ -1,6 +1,9 @@
 class_name CombatComponent extends Node3D
 
-@export var current_weapon: WeaponResource
+@export var current_weapon: WeaponResource:
+	set(new_wep):
+		on_weapon_change.emit(current_weapon, new_wep)
+		current_weapon = new_wep
 @export var weapon_hand: Node3D
 @export var target_ray: RayCast3D
 @export var bullet_hole_decal: PackedScene
@@ -9,11 +12,21 @@ class_name CombatComponent extends Node3D
 
 @export var audio_player: AudioStreamPlayer3D
 
+signal on_weapon_ammo_change(new_clip: int, new_max_ammo: int)
+signal on_weapon_change(oldWep: WeaponResource, newWep: WeaponResource)
+signal on_weapon_ray_colliding(ray: RayCast3D)
+
 var can_fire: bool = true
 var fire_timer: Timer
 var is_holding_trigger: bool = false
-var ammo_clip: int
-var max_ammo: int
+var ammo_clip: int:
+	set(new_clip):
+		ammo_clip = new_clip
+		on_weapon_ammo_change.emit(ammo_clip, max_ammo)
+var max_ammo: int:
+	set(new_max_ammo):
+		max_ammo = new_max_ammo
+		on_weapon_ammo_change.emit(ammo_clip, max_ammo)
 
 func _ready() -> void:
 	fire_timer = Timer.new()
@@ -49,7 +62,6 @@ func fire() -> void:
 	fire_timer.start(current_weapon.fire_rate)
 	
 	ammo_clip -= 1
-	print("AMMO CLIP: ", ammo_clip)
 	
 	_trigger_muzzle_flash()
 	_play_weapon_sound()
@@ -63,6 +75,7 @@ func fire() -> void:
 		
 		if collider.has_node("Behaviours/HealthComponent"):
 			# Take damage
+			on_weapon_ray_colliding.emit(target_ray)
 			var healthComponent = collider.get_node("Behaviours/HealthComponent") as HealthComponent
 			healthComponent.take_damage(current_weapon.damage)
 			
@@ -76,9 +89,6 @@ func reload() -> void:
 		
 	ammo_clip = new_clip
 	max_ammo -= new_clip
-	
-	print("CLIP SIZE: ", ammo_clip)
-	print("MAX AMMO: ", max_ammo)
 	
 func press_trigger() -> void:
 	is_holding_trigger = true
